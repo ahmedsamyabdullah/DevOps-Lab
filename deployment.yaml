@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-web-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-web-app
+  template:
+    metadata:
+      labels:
+        app: my-web-app
+    spec:
+      containers:
+      - name: nginx
+        image: devahmedsamy/my-web-app:latest
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-web-service
+spec:
+  type: NodePort
+  selector:
+    app: my-web-app
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30007
